@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: technical-test-api
+  main:
+    web-application-type: servlet
+  data:
+    mongodb:
+      database: auchan-tech-test
+
+server:
+  port: 8086
