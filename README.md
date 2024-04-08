@@ -63,7 +63,7 @@ TravelQuest est une application de réservation de voyages qui offre une expéri
    
 ## Consignes
 - N'hésite pas à fouiller sur Google, StackOverflow, la documentation Spring pour trouver les réponses à tes questions.
-- Soyez prêt à discuter de vos choix et de votre approche lors de l'entretien.
+- Sois prêt à discuter de tes choix et de ton approche lors de l'entretien.
 - Have fun !
 
 
