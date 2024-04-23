@@ -32,4 +32,27 @@ public class FlightFacade {
                             return Mono.just(flightRepresentation);
                         }));
     }
+
+    public Mono<FlightRepresentation> saveFlight(FlightRepresentation flightRepresentation) {
+
+        return flightService
+                .saveFlight(flightMapper.convert(flightRepresentation))
+                .onErrorMap((throwable) -> new Exception("Can't create FlightRecord :( ", throwable))
+                .map(flightMapper::convert);
+    }
+
+    public Flux<FlightRepresentation> flightsByCriteria(String sortColumn, String sortDirection, int page, int sizePerPage) {
+
+        return flightService.flightsByCriteria(sortColumn, sortDirection, page, sizePerPage)
+                .concatMap(flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
+                        .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
+                        .flatMap(tuple -> {
+                            AirportRecord origin = tuple.getT1();
+                            AirportRecord destination = tuple.getT2();
+                            FlightRepresentation flightRepresentation = this.flightMapper.convert(flightRecord);
+                            flightRepresentation.setOrigin(this.airportMapper.convert(origin));
+                            flightRepresentation.setDestination(this.airportMapper.convert(destination));
+                            return Mono.just(flightRepresentation);
+                        }));
+    }
 }
